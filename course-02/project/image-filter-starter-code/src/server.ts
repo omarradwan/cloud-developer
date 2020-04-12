@@ -7,12 +7,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // Init the Express application
   const app = express();
-
   // Set the network port
   const port = process.env.PORT || 8082;
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
+
+  // Init the valid-url helper package
+  const validUrl = require('valid-url');
 
   // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
   // GET /filteredimage?image_url={{URL}}
@@ -35,6 +37,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     const imageUrl = req.query.image_url;
     if (!imageUrl) {
       return res.status(400).send({"message": "image url is missing!"});
+    }
+    if (!validUrl.isUri(imageUrl)) {
+      return res.status(400).send({"message": "url is not valid"});
     }
     try {
       const filteredImagePath = await filterImageFromURL(imageUrl);
