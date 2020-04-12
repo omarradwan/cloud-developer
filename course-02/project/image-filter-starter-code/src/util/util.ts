@@ -17,8 +17,8 @@ export async function filterImageFromURL(inputURL: string): Promise<string>{
             .resize(256, 256) // resize
             .quality(60) // set JPEG quality
             .greyscale() // set greyscale
-            .write(__dirname+outpath, (img)=>{
-                resolve(__dirname+outpath);
+            .write(__dirname + outpath, (img)=>{
+                resolve(__dirname + outpath);
             });
         } catch(err) {
             reject(new Error("image not found"));
